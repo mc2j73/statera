@@ -5,8 +5,11 @@ namespace App\Server;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
+// use App\Http\Controllers\Server\CharacterController;
+
 class Server implements MessageComponentInterface
 {
+    const CTRL_NAMESPACE = "App\Http\Controllers\Server\\";
 
     /**
      * When a new connection is opened it will be passed to this method
@@ -48,6 +51,14 @@ class Server implements MessageComponentInterface
      */
     function onMessage(ConnectionInterface $from, $msg)
     {
-        // TODO: Implement onMessage() method.
+        $msg = json_decode($msg, true);
+
+        $controller = self::CTRL_NAMESPACE.ucfirst($msg['route'].'Controller');
+        $action = $msg['action'];
+
+        if (class_exists($controller) && method_exists($controller, $action))
+            $controller::{$action}($from, $msg['key']);
+        else
+            $from->send('page not found');
     }
 }

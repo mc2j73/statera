@@ -14,7 +14,8 @@ class ServerStart extends Command
     public function handle()
     {
         $server = new RatchetApp(env('SERVER_HOST'), env('SERVER_PORT'));
-        $server->route('/api', new Server());
+        $server->route('/game', new Server(), ['*']);
+        $this->info("WS started on ".env('SERVER_HOST').":".env('SERVER_PORT'));
         $server->run();
     }
 }
