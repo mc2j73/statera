@@ -6,9 +6,10 @@ Route::get('/', function(){
 	return redirect()->route('home');
 })->name('index');
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function(){
+	Route::get('/home', 'HomeController@index')->name('home');
+
 	Route::group([
 		'prefix' => 'character', 
 		'as' => 'character.'

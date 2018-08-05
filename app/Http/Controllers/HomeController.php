@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('has_not_character');
+        $this->middleware(['has_not_character']);
     }
 
     /**
